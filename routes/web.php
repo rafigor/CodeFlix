@@ -14,3 +14,26 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
+
+Route::group(['prefix'=>'admin', 'as' => 'admin.', 'namespace' => 'Admin\\'], function(){
+    Route::name('login')->get('login', 'Auth\LoginController@showLoginForm');
+    Route::post('login', 'Auth\LoginController@login');
+
+    Route::group(['middleware' => 'can:admin',],function(){
+        Route::name('logout')->post('logout', 'Auth\LoginController@logout');
+        Route::get('dashboard', function(){
+           return 'area adm funfando';
+        });
+    });
+});
+
+
+Route::get('force-login', function(){
+   \Illuminate\Support\Facades\Auth::loginUsingId(1);
+});
+
+

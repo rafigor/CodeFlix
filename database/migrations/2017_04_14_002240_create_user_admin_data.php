@@ -12,7 +12,7 @@ class CreateUserAdminData extends Migration
      */
     public function up()
     {
-        User::created([
+        User::create([
             'name' => env('ADMIN_DEFAULT_NAME','Administrator'),
             'email' => env('ADMIN_DEFAULT_EMAIL','admin@user.com'),
             'role' => User::ROLE_ADMIN,
