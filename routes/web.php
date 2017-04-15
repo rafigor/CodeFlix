@@ -11,33 +11,37 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use Illuminate\Support\Facades\Auth;
 
 // Password Reset Routes...
-Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+Route::group(['prefix'=>'password', 'as'=>'password.', 'namespace'=>'Auth\\'], function(){
+    Route::get ('reset'        , 'ForgotPasswordController@showLinkRequestForm')->name('request');
+    Route::post('email'        , 'ForgotPasswordController@sendResetLinkEmail') ->name('email');
+    Route::get ('reset/{token}', 'ResetPasswordController@showResetForm')       ->name('reset');
+    Route::post('reset'        , 'ResetPasswordController@reset');
+});
 
-Route::get('/home', 'HomeController@index');
-
+// admin
 Route::group(['prefix'=>'admin', 'as' => 'admin.', 'namespace' => 'Admin\\'], function(){
-    Route::name('login')->get('login', 'Auth\LoginController@showLoginForm');
+    Route::get ('login', 'Auth\LoginController@showLoginForm')->name('login');
     Route::post('login', 'Auth\LoginController@login');
 
-    Route::group(['middleware' => 'can:admin',],function(){
-        Route::name('logout')->post('logout', 'Auth\LoginController@logout');
+    Route::group(['middleware' => 'can:admin'],function(){
+
+        Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+        Route::resource('users','UsersController');
+
         Route::get('dashboard', function(){
-           return view('admin.dashboard');
+            return view('admin.dashboard');
         });
     });
 });
 
-
-Route::get('force-login', function(){
-   \Illuminate\Support\Facades\Auth::loginUsingId(1);
+Route::get('/', function () {
+    return view('welcome');
 });
-
-
+Route::get('/home', 'HomeController@index');
+Route::get('force-login', function(){
+    Auth::loginUsingId(1);
+});
