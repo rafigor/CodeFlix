@@ -228,11 +228,11 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         /*
-        'Accordion' => 'Bootstrapper\Facades\Accordion',
-        'Alert' => 'Bootstrapper\Facades\Alert',
+        'Accordion' => 'Bootstrapper\Facades\Accordion',*/
+        'Alert' => 'Bootstrapper\Facades\Alert',/*
         'Badge' => 'Bootstrapper\Facades\Badge',
-        'Breadcrumb' => 'Bootstrapper\Facades\Breadcrumb',
-        'Button' => 'Bootstrapper\Facades\Button',
+        'Breadcrumb' => 'Bootstrapper\Facades\Breadcrumb',*/
+        'Button' => 'Bootstrapper\Facades\Button',/*
         'ButtonGroup' => 'Bootstrapper\Facades\ButtonGroup',
         'Carousel' => 'Bootstrapper\Facades\Carousel',
         'ControlGroup' => 'Bootstrapper\Facades\ControlGroup',

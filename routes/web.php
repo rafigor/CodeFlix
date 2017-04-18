@@ -34,7 +34,7 @@ Route::group(['prefix'=>'admin', 'as' => 'admin.', 'namespace' => 'Admin\\'], fu
 
         Route::get('dashboard', function(){
             return view('admin.dashboard');
-        });
+        })->name('dashboard');
     });
 });
 
