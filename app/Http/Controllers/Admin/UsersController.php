@@ -120,7 +120,9 @@ class UsersController extends Controller
                 ->withInput();
         }
 
-        $this->repository->update($form->getFieldValues(), $id);
+        $data = array_except($form->getFieldValues(),['password','role']);
+
+        $this->repository->update($data, $id);
 
         $request->session()->flash('message','Usuário alterado com sucesso.');
 
