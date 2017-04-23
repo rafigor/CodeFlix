@@ -3,31 +3,22 @@
 namespace CodeFlix\Models;
 
 use Bootstrapper\Interfaces\TableInterface;
-use CodeFlix\Notifications\DefaultResetPasswordNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Prettus\Repository\Contracts\Transformable;
+use Prettus\Repository\Traits\TransformableTrait;
+use CodeFlix\Notifications\DefaultResetPasswordNotification;
 
-class User extends Authenticatable implements TableInterface
+class User extends Authenticatable implements TableInterface, Transformable
 {
-    use Notifiable;
-
     const ROLE_ADMIN=1;
     const ROLE_CLIENT=2;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email', 'password', 'role'
-    ];
+    use TransformableTrait;
+    use Notifiable;
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+    protected $fillable = ['name', 'email', 'password', 'role'];
+
     protected $hidden = [
         'password', 'remember_token',
     ];
@@ -36,16 +27,32 @@ class User extends Authenticatable implements TableInterface
         return !$password? bcrypt(str_random(8)):bcrypt($password);
     }
 
-    public function sendPasswordResetNotification($token)
-    {
+    public function sendPasswordResetNotification($token){
         $this->notify(new DefaultResetPasswordNotification($token));
     }
 
+    public function transform()
+    {
+        // TODO: Implement transform() method.
+    }
+
+    /**
+     * A list of headers to be used when a table is displayed
+     *
+     * @return array
+     */
     public function getTableHeaders()
     {
         return ['#', 'Nome', 'e-mail'];
     }
 
+    /**
+     * Get the value for a given header. Note that this will be the value
+     * passed to any callback functions that are being used.
+     *
+     * @param string $header
+     * @return mixed
+     */
     public function getValueForHeader($header)
     {
         switch($header){

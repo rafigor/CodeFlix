@@ -23,6 +23,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind('CodeFlix\Repositories\UserRepository','CodeFlix\Repositories\UserRepositoryEloquent');
         //:end-bindings:
     }
 }
