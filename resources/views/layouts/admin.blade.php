@@ -33,6 +33,7 @@
                     [
                         Auth::user()->name,
                         [
+                            ['link' => route('admin.user_settings.edit'), 'title' => 'Trocar Senha'],
                             [
                                 'link' => route('admin.logout'),
                                 'title' => 'Logout',

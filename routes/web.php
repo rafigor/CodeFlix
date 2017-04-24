@@ -30,22 +30,21 @@ Route::group(['prefix'=>'admin', 'as' => 'admin.', 'namespace' => 'Admin\\'], fu
     Route::post('login', 'Auth\LoginController@login');
 
     Route::group(['middleware' => ['isVerified', 'can:admin']],function(){
-
         Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+        Route::get('dashboard', function(){
+            return view('admin.dashboard');
+        })->name('dashboard');
+
+        Route::get('users/settings', 'Auth\UserSettingsController@edit')->name('user_settings.edit');
+        Route::put('users/settings', 'Auth\UserSettingsController@update')->name('user_settings.update');
 
         Route::resource('users','UsersController');
         Route::resource('categories','CategoriesController');
 
-        Route::get('dashboard', function(){
-            return view('admin.dashboard');
-        })->name('dashboard');
+
     });
 });
 
 Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/home', 'HomeController@index');
-Route::get('force-login', function(){
-    Auth::loginUsingId(1);
+    return redirect()->route('admin.dashboard');
 });
