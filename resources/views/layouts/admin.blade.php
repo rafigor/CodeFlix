@@ -27,6 +27,7 @@
             if(Auth::check()){
                 $menuLeft = Navigation::links([
                     ['link' => route('admin.users.index'), 'title' => 'Usuário'],
+                    ['link' => route('admin.categories.index'), 'title' => 'Categoria'],
                 ]);
                 $menuRight = Navigation::links([
                     [

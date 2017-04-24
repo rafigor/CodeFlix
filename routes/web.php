@@ -21,6 +21,9 @@ Route::group(['prefix'=>'password', 'as'=>'password.', 'namespace'=>'Auth\\'], f
     Route::post('reset'        , 'ResetPasswordController@reset');
 });
 
+Route::get('email-verification/error', 'EmailVerificationController@getVerificationError')->name('email-verification.error');
+Route::get('email-verification/check/{token}', 'EmailVerificationController@getVerification')->name('email-verification.check');
+
 // admin
 Route::group(['prefix'=>'admin', 'as' => 'admin.', 'namespace' => 'Admin\\'], function(){
     Route::get ('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -31,6 +34,7 @@ Route::group(['prefix'=>'admin', 'as' => 'admin.', 'namespace' => 'Admin\\'], fu
         Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
         Route::resource('users','UsersController');
+        Route::resource('categories','CategoriesController');
 
         Route::get('dashboard', function(){
             return view('admin.dashboard');
