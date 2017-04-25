@@ -13,7 +13,9 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use CodeFlix\Models\Category;
+use CodeFlix\Models\Serie;
 use CodeFlix\Models\User;
+use CodeFlix\Models\Video;
 
 $factory->define(User::class, function (Faker\Generator $faker) {
     static $password;
@@ -36,5 +38,27 @@ $factory->define(Category::class, function (Faker\Generator $faker) {
 
     return [
         'name' => $faker->word
+    ];
+});
+
+$factory->define(Serie::class, function (Faker\Generator $faker) {
+
+    return [
+        'title' => $faker->sentence(3),
+        'description' => $faker->sentence(10),
+        'thumb' => 'thumb.jpg'
+    ];
+});
+
+$factory->define(Video::class, function (Faker\Generator $faker) {
+
+    return [
+        'title' => $faker->sentence(3),
+        'description' => $faker->sentence(10),
+        'duration' => rand(1,30),
+        'file' => 'file.mpg',
+        'thumb' => 'thumb.jpg',
+        'published' => rand(0,1),
+        'completed' => 1
     ];
 });

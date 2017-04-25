@@ -19,6 +19,7 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+    @stack('styles')
 </head>
 <body>
     <div id="app">
@@ -28,6 +29,7 @@
                 $menuLeft = Navigation::links([
                     ['link' => route('admin.users.index'), 'title' => 'Usuário'],
                     ['link' => route('admin.categories.index'), 'title' => 'Categoria'],
+                    ['link' => route('admin.series.index'), 'title' => 'Série'],
                 ]);
                 $menuRight = Navigation::links([
                     [
