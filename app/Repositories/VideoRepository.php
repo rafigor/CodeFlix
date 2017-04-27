@@ -11,4 +11,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 interface VideoRepository extends RepositoryInterface
 {
     //
+    public function update(array $attributes, $id);
 }

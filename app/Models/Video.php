@@ -11,7 +11,7 @@ class Video extends Model implements TableInterface, Transformable
 {
     use TransformableTrait;
 
-    protected $fillable = [];
+    protected $fillable = ['title', 'description', 'duration', 'published', 'serie_id'];
 
     /**
      * A list of headers to be used when a table is displayed
@@ -20,7 +20,7 @@ class Video extends Model implements TableInterface, Transformable
      */
     public function getTableHeaders()
     {
-        // TODO: Implement getTableHeaders() method.
+        return ['#'];
     }
 
     /**
@@ -32,7 +32,9 @@ class Video extends Model implements TableInterface, Transformable
      */
     public function getValueForHeader($header)
     {
-        // TODO: Implement getValueForHeader() method.
+        switch ($header){
+            case '#': return $this->id;
+        }
     }
 
     public function serie(){

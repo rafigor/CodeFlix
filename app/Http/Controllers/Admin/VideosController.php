@@ -2,21 +2,20 @@
 
 namespace CodeFlix\Http\Controllers\Admin;
 
-use CodeFlix\Forms\CategoryForm;
-use CodeFlix\Repositories\CategoryRepository;
-use Illuminate\Http\Request;
+use CodeFlix\Forms\VideoForm;
 use CodeFlix\Http\Controllers\Controller;
+use CodeFlix\Repositories\VideoRepository;
+use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\Facades\FormBuilder;
-use Kris\LaravelFormBuilder\Form;
 
-class CategoriesController extends Controller
+class VideosController extends Controller
 {
     /**
-     * @var CategoryRepository
+     * @var VideoRepository
      */
     private $repository;
 
-    public function __construct(CategoryRepository $repository)
+    public function __construct(VideoRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -28,8 +27,8 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = $this->repository->paginate();
-        return view('admin.categories.index',compact('categories'));
+        $videos = $this->repository->paginate();
+        return view('admin.videos.index',compact('videos'));
     }
 
     /**
@@ -39,12 +38,12 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        $form = FormBuilder::create(CategoryForm::class, [
-            'url' => route('admin.categories.store'),
+        $form = FormBuilder::create(VideoForm::class, [
+            'url' => route('admin.videos.store'),
             'method' => 'POST'
         ]);
 
-        return view ('admin.categories.create', compact('form'));
+        return view ('admin.videos.create', compact('form'));
     }
 
     /**
@@ -55,7 +54,7 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        $form = FormBuilder::create(CategoryForm::class);
+        $form = FormBuilder::create(VideoForm::class);
 
         if(!$form->isValid()){
             return redirect()
@@ -66,51 +65,53 @@ class CategoriesController extends Controller
 
         $this->repository->create($form->getFieldValues());
 
-        $request->session()->flash('message','Categoria criada com sucesso.');
+        $request->session()->flash('message','Vídeo adicionado com sucesso.');
 
-        return redirect()->route('admin.categories.index');
+        return redirect()->route('admin.videos.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \CodeFlix\Models\Video  $video
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $category = $this->repository->find($id);
-        return view ('admin.categories.show', compact('category'));
+        /*
+        $video = $this->repository->find($id);
+        return view ('admin.videos.show', compact('video'));
+        */
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \CodeFlix\Models\Video  $video
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $category = $this->repository->find($id);
-        $form = FormBuilder::create(CategoryForm::class, [
-            'url' => route('admin.categories.update',['category' => $id]),
+        $video = $this->repository->find($id);
+        $form = FormBuilder::create(VideoForm::class, [
+            'url' => route('admin.videos.update',['video' => $id]),
             'method' => 'PUT',
-            'model' => $category
+            'model' => $video
         ]);
 
-        return view ('admin.categories.edit', compact('form'));
+        return view ('admin.videos.edit', compact('form'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \CodeFlix\Models\Video  $video
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $form = FormBuilder::create(CategoryForm::class);
+        $form = FormBuilder::create(VideoForm::class);
 
         if(!$form->isValid()){
             return redirect()
@@ -121,23 +122,25 @@ class CategoriesController extends Controller
 
         $this->repository->update($form->getFieldValues(), $id);
 
-        $request->session()->flash('message','Categoria alterada com sucesso.');
+        $request->session()->flash('message','Vídeo alterado com sucesso.');
 
-        return redirect()->route('admin.categories.index');
+        return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \CodeFlix\Models\Video  $video
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)
     {
+        /*
         $this->repository->delete($id);
 
-        $request->session()->flash('message','Categoria excluída com sucesso.');
+        $request->session()->flash('message','Vídeo excluído com sucesso.');
 
-        return redirect()->route('admin.categories.index');
+        return redirect()->route('admin.videos.index');
+        */
     }
 }

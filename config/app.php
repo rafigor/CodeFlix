@@ -233,6 +233,7 @@ return [
         'Alert' => Bootstrapper\Facades\Alert::class,
         'Button' => Bootstrapper\Facades\Button::class,
         'Icon' => Bootstrapper\Facades\Icon::class,
+        'MediaObject' => Bootstrapper\Facades\MediaObject::class,
         'Navbar' => Bootstrapper\Facades\Navbar::class,
         'Navigation' => Bootstrapper\Facades\Navigation::class,
         'Table' => Bootstrapper\Facades\Table::class,
@@ -250,7 +251,7 @@ return [
         'InputGroup' => 'Bootstrapper\Facades\InputGroup',
         'Image' => 'Bootstrapper\Facades\Image',
         'Label' => 'Bootstrapper\Facades\Label',
-        'MediaObject' => 'Bootstrapper\Facades\MediaObject',
+
         'Modal' => 'Bootstrapper\Facades\Modal',
         'Panel' => 'Bootstrapper\Facades\Panel',
         'ProgressBar' => 'Bootstrapper\Facades\ProgressBar',
