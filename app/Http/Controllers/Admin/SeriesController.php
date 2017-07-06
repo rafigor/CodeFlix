@@ -65,7 +65,9 @@ class SeriesController extends Controller
                 ->withInput();
         }
 
-        $this->repository->create($form->getFieldValues());
+        $data = $form->getFieldValues();
+        $data['thumb'] = env('SERIE_NO_THUMB');
+        $this->repository->create($data);
 
         $request->session()->flash('message','Série criada com sucesso.');
 
@@ -96,7 +98,8 @@ class SeriesController extends Controller
         $form = FormBuilder::create(SerieForm::class, [
             'url' => route('admin.series.update',['series' => $id]),
             'method' => 'PUT',
-            'model' => $serie
+            'model' => $serie,
+            'data' => ['id' => $serie->id]
         ]);
 
         return view ('admin.series.edit', compact('form'));
@@ -111,7 +114,9 @@ class SeriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $form = FormBuilder::create(SerieForm::class);
+        $form = FormBuilder::create(SerieForm::class, [
+            'data' => ['id' => $id]
+        ]);
 
         if(!$form->isValid()){
             return redirect()
@@ -120,7 +125,9 @@ class SeriesController extends Controller
                 ->withInput();
         }
 
-        $this->repository->update($form->getFieldValues(), $id);
+        $data = array_except($form->getFieldValues(),'thumb');
+
+        $this->repository->update($data, $id);
 
         $request->session()->flash('message','Série alterada com sucesso.');
 
@@ -140,5 +147,13 @@ class SeriesController extends Controller
         $request->session()->flash('message','Série excluída com sucesso.');
 
         return redirect()->route('admin.series.index');
+    }
+
+    public function thumbAsset(Serie $serie){
+        return response()->download($serie->thumb_path);
+    }
+
+    public function thumbSmallAsset(Serie $serie){
+        return response()->download($serie->thumb_small_path);
     }
 }

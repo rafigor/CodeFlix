@@ -3,6 +3,7 @@
 use CodeFlix\Models\Category;
 use CodeFlix\Models\Serie;
 use CodeFlix\Models\Video;
+use CodeFlix\Repositories\VideoRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
 
@@ -18,8 +19,18 @@ class VideosTableSeeder extends Seeder
         /** @var Collection $series */
         $series = Serie::all();
         $categories = Category::all();
-        factory(Video::class, 100)->create()->each(function($video) use($series, $categories){
+
+        $repository = app(VideoRepository::class);
+        $colletionThumbs = $this->getThumbs();
+
+        factory(Video::class, 100)->create()->each(function($video) use(
+            $series,
+            $categories,
+            $repository,
+            $colletionThumbs
+        ){
             $video->categories()->attach($categories->random(4)->pluck('id'));
+            $repository->uploadThumb($video->id, $colletionThumbs->random());
             $num = rand(1,3);
             if($num%2==0){
                 $serie = $series->random();
@@ -28,5 +39,14 @@ class VideosTableSeeder extends Seeder
                 $video->save();
             }
         });
+    }
+
+    protected function getThumbs(){
+        return new \Illuminate\Support\Collection([
+            new \Illuminate\Http\UploadedFile(
+                storage_path('app/files/faker/thumbs/photob-galinha-pintadinha-capa.png'),
+                'photob-galinha-pintadinha-capa.png'
+            ),
+        ]);
     }
 }

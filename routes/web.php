@@ -40,10 +40,14 @@ Route::group(['prefix'=>'admin', 'as' => 'admin.', 'namespace' => 'Admin\\'], fu
 
         Route::resource('users','UsersController');
         Route::resource('categories','CategoriesController');
+        Route::get('series/{serie}/thumb_asset','SeriesController@thumbAsset')->name('series.thumb_asset');
+        Route::get('series/{serie}/thumb_small_asset','SeriesController@thumbSmallAsset')->name('series.thumb_small_asset');
         Route::resource('series','SeriesController');
         Route::group(['prefix' => 'videos', 'as' => 'videos.'], function(){
             Route::get('{video}/relations', 'VideoRelationsController@create')->name('relations.create');
             Route::post('{video}/relations', 'VideoRelationsController@store')->name('relations.store');
+            Route::get('{video}/uploads', 'VideoUploadsController@create')->name('uploads.create');
+            Route::post('{video}/uploads', 'VideoUploadsController@store')->name('uploads.store');
         });
         Route::resource('videos','VideosController');
     });
