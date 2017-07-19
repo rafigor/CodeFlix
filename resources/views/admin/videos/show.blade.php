@@ -32,6 +32,10 @@
                         <th scope="row">Título</th>
                         <td>{{$video->title}}</td>
                     </tr>
+                    <tr>
+                        <th scope="row">Descrição</th>
+                        <td>{{$video->description}}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

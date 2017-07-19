@@ -59,6 +59,6 @@ $factory->define(Video::class, function (Faker\Generator $faker) {
         'file' => 'file.mpg',
         'thumb' => 'thumb.jpg',
         'published' => rand(0,1),
-        'completed' => 1
+        'completed' => 0
     ];
 });

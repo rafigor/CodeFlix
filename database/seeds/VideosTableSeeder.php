@@ -22,15 +22,18 @@ class VideosTableSeeder extends Seeder
 
         $repository = app(VideoRepository::class);
         $colletionThumbs = $this->getThumbs();
+        $colletionFiles = $this->getFiles();
 
-        factory(Video::class, 100)->create()->each(function($video) use(
+        factory(Video::class, 2)->create()->each(function($video) use(
             $series,
             $categories,
             $repository,
-            $colletionThumbs
+            $colletionThumbs,
+            $colletionFiles
         ){
             $video->categories()->attach($categories->random(4)->pluck('id'));
             $repository->uploadThumb($video->id, $colletionThumbs->random());
+            $repository->uploadFile($video->id, $colletionFiles->random());
             $num = rand(1,3);
             if($num%2==0){
                 $serie = $series->random();
@@ -46,6 +49,15 @@ class VideosTableSeeder extends Seeder
             new \Illuminate\Http\UploadedFile(
                 storage_path('app/files/faker/thumbs/photob-galinha-pintadinha-capa.png'),
                 'photob-galinha-pintadinha-capa.png'
+            ),
+        ]);
+    }
+
+    protected function getFiles(){
+        return new \Illuminate\Support\Collection([
+            new \Illuminate\Http\UploadedFile(
+                storage_path('app/files/faker/videos/VID-20161017-WA0057.mp4'),
+                'VID-20161017-WA0057.mp4'
             ),
         ]);
     }

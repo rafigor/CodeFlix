@@ -54,7 +54,15 @@ class VideoUploadsController extends Controller
                 ->withInput();
         }
 
-        $this->repository->uploadThumb($id, $request->file('thumb'));
+        if($request->file('thumb')){
+            $this->repository->uploadThumb($id, $request->file('thumb'));
+        }
+
+        if($request->file('file')){
+            $this->repository->uploadFile($id, $request->file('file'));
+        }
+
+        $this->repository->update(array_except($form->getFieldValues(),'thumb,file'),$id);
 
         $request->session()->flash('message','Uploads realizados com sucesso.');
 

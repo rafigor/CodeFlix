@@ -5,12 +5,15 @@ namespace CodeFlix\Models;
 use Bootstrapper\Interfaces\TableInterface;
 use CodeFlix\Media\VideoPaths;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 class Video extends Model implements TableInterface, Transformable
 {
-    use TransformableTrait, VideoPaths;
+    use TransformableTrait;
+    use VideoPaths;
+    use SoftDeletes;
 
     protected $fillable = ['title', 'description', 'duration', 'published', 'serie_id'];
 
@@ -37,6 +40,10 @@ class Video extends Model implements TableInterface, Transformable
             case '#': return $this->id;
         }
     }
+
+    protected $casts = [
+        'completed' => 'boolean'
+    ];
 
     public function serie(){
         return $this->belongsTo(Serie::class);

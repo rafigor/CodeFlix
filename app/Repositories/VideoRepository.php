@@ -2,7 +2,6 @@
 
 namespace CodeFlix\Repositories;
 
-use Illuminate\Http\UploadedFile;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
@@ -11,6 +10,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface VideoRepository extends RepositoryInterface
 {
-    public function uploadThumb($id, UploadedFile $file);
-    public function update(array $attributes, $id);
+
 }
