@@ -8,8 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use CodeFlix\Notifications\DefaultResetPasswordNotification;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements TableInterface, Transformable
+class User extends Authenticatable implements TableInterface, Transformable, JWTSubject
 {
     const ROLE_ADMIN=1;
     const ROLE_CLIENT=2;
@@ -60,5 +61,31 @@ class User extends Authenticatable implements TableInterface, Transformable
             case 'Nome': return $this->name;
             case 'e-mail': return $this->email;
         }
+    }
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [
+            'user' => [
+                'id' => $this->id,
+                'name' => $this->name,
+                'email' => $this->email
+            ]
+        ];
     }
 }
