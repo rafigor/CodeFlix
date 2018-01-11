@@ -1,0 +1,11 @@
+- git clone https://github.com/rafigor/CodeFlix.git
+- cd CodeFlix
+- git submodule add https://github.com/Laradock/laradock.git
+- cd laradock
+- cp env-example .env
+- docker-compose up -d nginx postgres pgadmin
+- docker-compose exec workspace bash
+
+- composer install
+- cp .env.example .env
+- php artisan key:generate
