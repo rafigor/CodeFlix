@@ -9,3 +9,7 @@
 - composer install
 - cp .env.example .env
 - php artisan key:generate
+
+- git clone https://github.com/certbot/certbot.git
+- cd certbot
+- sudo letsencrypt-auto certonly --email rafigor@gescti.com -d api.onclickhub.com.br
