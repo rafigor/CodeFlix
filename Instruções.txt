@@ -5,7 +5,7 @@
 - cp env-example .env
 - docker-compose up -d nginx postgres pgadmin
 - docker-compose exec workspace bash
-
+ 
 - composer install
 - cp .env.example .env
 - php artisan key:generate
